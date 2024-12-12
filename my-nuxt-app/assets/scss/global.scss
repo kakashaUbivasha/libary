@@ -1,0 +1,10 @@
+@import "vars";
+
+body{
+  background: $bg;
+  color: $main;
+}
+a{
+  text-decoration: none;
+  color: inherit;
+}
