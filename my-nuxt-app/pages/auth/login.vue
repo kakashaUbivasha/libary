@@ -1,9 +1,13 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 const password = ref('')
 const email = ref('')
+const isError = ref(false)
 const onLogin = () =>{
-
+  if (!password.value.trim()||!email.value.trim()){
+    return isError.value = true
+  }
+  isError.value = false
 }
 </script>
 
@@ -22,8 +26,10 @@ const onLogin = () =>{
         </label>
         <input v-model="password" type="password" id="password" placeholder="Введите пароль...">
       </div>
-
-      <button class="btn" @click="onRegistr">Войти</button>
+      <span v-if="isError" class="error">
+          Неверная почта или пароль
+      </span>
+      <button type="button"  class="btn" @click="onLogin">Войти</button>
       <NuxtLink style="text-align: center" to="/auth/register">Зарегистрироваться</NuxtLink>
     </form>
     <span class="logo">LibraryApp</span>

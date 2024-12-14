@@ -4,8 +4,18 @@ const name = ref('')
 const password = ref('')
 const email = ref('')
 const password2 = ref('')
+const isError = ref(false)
+const errorMassage = ref('')
 const onRegistr = () =>{
-
+  if (!password.value.trim()||!email.value.trim()||!password2.value.trim()||!name.value.trim()){
+    errorMassage.value = 'Заполните все поля'
+    return isError.value = true
+  }
+  else if (password.value.trim() !== password2.value.trim()){
+    errorMassage.value = 'Пароли не совпадают'
+    return isError.value = true
+  }
+  isError.value = false
 }
 </script>
 
@@ -22,7 +32,7 @@ const onRegistr = () =>{
         <label for="email">
           Ваша почта
         </label>
-        <input v-model="email" type="email" id="email" placeholder="Введите почту...">
+        <input v-model="email" type="email" id="email" placeholder="Введите почту..." required>
       </div>
       <div class="input__block">
         <label for="password">
@@ -36,8 +46,10 @@ const onRegistr = () =>{
         </label>
         <input v-model="password2" type="password" id="password2" placeholder="Повторите пароль...">
       </div>
-
-      <button class="btn" @click="onRegistr">Зарегистрироваться</button>
+      <span v-if="isError" class="error">
+          {{errorMassage}}
+      </span>
+      <button type="button" class="btn" @click="onRegistr">Зарегистрироваться</button>
       <NuxtLink style="text-align: center" to="/auth/login">Войти</NuxtLink>
     </form>
     <span class="logo">LibraryApp</span>
