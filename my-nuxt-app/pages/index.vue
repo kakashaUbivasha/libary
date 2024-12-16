@@ -38,8 +38,9 @@
 </template>
 
 <style scoped>
-/* Стиль для заголовка */
+/* Стиль для загsw  оловка */
 h1 {
   text-align: center;
+  margin-bottom: 20px;
 }
 </style>

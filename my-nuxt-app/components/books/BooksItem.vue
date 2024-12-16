@@ -2,7 +2,8 @@
   defineProps({
   title: '',
   author: '',
-  imageSrc: ''
+  imageSrc: '',
+    id: ''
   })
   const truncateAuthor = (author) => {
     if (!author) return 'Неизвестный автор';
@@ -11,11 +12,14 @@
 </script>
 
 <template>
-    <div class="book">
-    <h2>{{ truncateAuthor(title) }}</h2>
-    <h3>{{ truncateAuthor(author)}}</h3>
-    <img v-if="imageSrc" :src="imageSrc" alt="Book Cover" loading="lazy"/>
-    </div>
+    <NuxtLink :to="`/books/${id}`">
+      <div class="book">
+        <h2>{{ truncateAuthor(title) }}</h2>
+        <h3>{{ truncateAuthor(author)}}</h3>
+        <img v-if="imageSrc" :src="imageSrc" alt="Book Cover" loading="lazy"/>
+      </div>
+
+    </NuxtLink>
 </template>
 
 <style scoped>

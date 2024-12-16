@@ -25,6 +25,7 @@ onMounted(() => {
             :title="book.title"
             :author="book.author"
             :image-src="book.coverUrl"
+            :id ="book.id"
         />
       </div>
     </div>

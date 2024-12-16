@@ -21,20 +21,20 @@ defineProps({
   justify-content: space-between;
   border: 1px solid #eaeaea;
   padding: 20px;
-  height: 100px;
+  height: 130px;
   border-radius: 20px;
   width: 800px;
   box-shadow:
-      0 4px 8px rgba(0, 0, 0, 0.1),  /* Мягкая тень снизу */
-      0 10px 20px rgba(0, 0, 0, 0.2), /* Глубокая тень для объёмности */
-      0 15px 25px rgba(0, 0, 0, 0.1);
+      0 4px 8px rgba(0, 0, 0, 0.1);  /* Мягкая тень снизу */
+      /* Глубокая тень для объёмности */
+
   h2{
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     text-align: center;
   }
   p{
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
   }
   span{
