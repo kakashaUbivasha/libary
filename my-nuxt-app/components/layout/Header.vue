@@ -100,9 +100,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f5f5f5;
+  background-color: #F0F4F8;
   border-bottom: 1px solid #ddd;
   margin-bottom: 100px;
+  z-index: 3;
 }
 
 .logo a {

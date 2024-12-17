@@ -1,13 +1,19 @@
-<script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useBooks } from '~/composables/useBooks.js';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import {educationBooks} from '~/composables/useBooks.js';
 
 const books = ref([]);
-const { fetchRandomBooks } = useBooks();
 
+const { fetchRandomBooks } = educationBooks();
 // Загружаем книги при монтировании компонента
 const loadBooks = async () => {
-  books.value = await fetchRandomBooks();
+  try {
+    const data = await fetchRandomBooks();
+    console.log('Полученные данные:', data); // Для отладки
+    books.value = data;
+  } catch (error) {
+    console.error('Ошибка при загрузке книг:', error);
+  }
 };
 onMounted(() => {
   loadBooks();

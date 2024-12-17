@@ -10,6 +10,9 @@ defineProps({
   language: '',
   reviews: []
 })
+const deleteTag = (desc) => {
+  return desc.replace(/<\/?[^>]+(>|$)/g, '');
+}
 </script>
 
 <template>
@@ -47,7 +50,7 @@ defineProps({
     <div class="description">
       <p style="font-weight: 700;">Описание:</p>
       <p>
-        {{ description }}
+        {{ deleteTag(description) }}
       </p>
 
     </div>
@@ -77,13 +80,14 @@ defineProps({
   img{
     max-width: 100%;
     width: 400px;
+    max-height: 600px;
   }
   .book__info{
     display: flex;
     flex-direction: column;
     align-items: end;
     gap: 5px;
-    max-width: 600px;
+    max-width: 800px;
     .book__title{
       text-align: end;
       font-size: 40px;
@@ -120,6 +124,7 @@ defineProps({
       display: flex;
       flex-direction: column;
       padding: 20px;
+      justify-content: space-between;
     }
   }
 }
