@@ -24,8 +24,11 @@
 
 <style scoped>
 .book{
-  border: 1px solid #eaaeea;
+  border: 1px solid #6A5ACD;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   img{
     height: 400px;
     width: 300px;

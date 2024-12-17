@@ -10,9 +10,9 @@ const statistics = ref([
   { imageSrc: 'https://openlibrary.org/static/images/categories/fantasy.svg', title: 'Фэнтези', text: '4700 книг' },
   { imageSrc: 'https://openlibrary.org/static/images/categories/science.svg', title: 'Наука', text: '3400 книг' },
   { imageSrc: 'https://openlibrary.org/static/images/categories/history.svg', title: 'История', text: '2800 книг' },
-  { imageSrc: 'https://openlibrary.org/static/images/categories/poetry.svg', title: 'Поэзия', text: '1200 книг' },
+  { imageSrc: 'https://openlibrary.org/static/images/categories/art.svg', title: 'Поэзия', text: '1200 книг' },
   { imageSrc: 'https://openlibrary.org/static/images/categories/classics.svg', title: 'Классика', text: '3900 книг' },
-  { imageSrc: 'https://openlibrary.org/static/images/categories/scifi.svg', title: 'Научная фантастика', text: '4100 книг' },
+  { imageSrc: 'https://openlibrary.org/static/images/categories/science_fiction.svg', title: 'Научная фантастика', text: '4100 книг' },
 ])
 const containerRef = ref(null)
 const swiper = useSwiper(containerRef, {
