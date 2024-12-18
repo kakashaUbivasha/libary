@@ -7,6 +7,8 @@ export default defineNuxtConfig({
   },
   css:[
     '~/assets/scss/global.scss',
+    'animate.css',
+    'aos/dist/aos.css'
   ],
 
   vite: {

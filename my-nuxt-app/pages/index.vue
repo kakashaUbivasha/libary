@@ -90,15 +90,13 @@ onMounted(() => {
             </p>
           </div>
         </transition>
-
-        <!-- Использование transition-group для анимации списка -->
         <transition
             v-for="(item, index) in listItems"
             :key="item"
             name="list-item"
             appear
         >
-          <p class="list" :class="index % 2 === 0 ? 'from-left' : 'from-right'">
+          <p class="list" :class="index % 2 === 0 ? 'from-left' : 'from-right'" v-if="showContent">
             {{ item }}
           </p>
         </transition>
@@ -109,13 +107,6 @@ onMounted(() => {
         <h2>Сейчас в библиотеке:</h2>
         <span>7231 книги</span> <!--В будущем брать количество с бэка, при бранировании книги количество уменьшается-->
       </div>
-<!--      <div class="container">-->
-<!--        <div class="statistic-item">-->
-<!--          <img src="https://openlibrary.org/static/images/categories/recipes.svg" alt="">-->
-<!--          <h3>Фантастика</h3>-->
-<!--          <span>5200 книг</span>-->
-<!--        </div>-->
-<!--      </div>-->
       <ClientOnly>
         <swiper-container ref="containerRef" :init="false">
           <swiper-slide
