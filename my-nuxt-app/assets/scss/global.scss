@@ -14,6 +14,11 @@ p, h1, h2, h3, h4, h5, h6{
   padding: 0;
   margin: 0;
 }
+h4{
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
 ul{
   list-style: none;
 }
@@ -64,4 +69,12 @@ ul{
 }
 .btn:hover {
   background: #7B68EE;
+}
+iframe{
+  width: 100%;
+  height: 600px;
+}
+.v-application{
+  background: none !important;
+  color: inherit !important;
 }

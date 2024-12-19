@@ -19,7 +19,7 @@ const swiper = useSwiper(containerRef, {
 
   loop: true,
   autoplay: {
-    delay: 5000,
+    delay: 3000,
   },
   spaceBetween: 20,
   slidesPerView: 5,
@@ -90,16 +90,21 @@ onMounted(() => {
             </p>
           </div>
         </transition>
-        <transition
-            v-for="(item, index) in listItems"
-            :key="item"
-            name="list-item"
-            appear
-        >
-          <p class="list" :class="index % 2 === 0 ? 'from-left' : 'from-right'" v-if="showContent">
-            {{ item }}
-          </p>
-        </transition>
+<!--        <transition-->
+<!--            v-for="(item, index) in listItems"-->
+<!--            :key="item"-->
+<!--            name="list-item"-->
+<!--            appear-->
+<!--        >-->
+<!--          <p class="list" :class="index % 2 === 0 ? 'from-left' : 'from-right'" v-if="showContent">-->
+<!--            {{ item }}-->
+<!--          </p>-->
+<!--        </transition>-->
+        <div v-for="(item,index) in listItems" class="">
+          <div :data-aos="index%2==0?'fade-right':'fade-left'" class="">
+            <p class="list">{{item}}</p>
+          </div>
+        </div>
       </div>
     </section>
     <section class="statistic">

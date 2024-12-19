@@ -1,46 +1,42 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue";
-import 'aos'
+import AboutItem from "~/components/animation/AboutItem.vue";
 // Управляем показом контента и загрузкой изображения
+import AOS from 'aos';
 const showContent = ref(false);
 const showContent2 = ref(false);
 const imageLoaded = ref(false);
 const isAnimated = ref(false);
 const listRef = ref(null);
 const items = ref([
-  "Что вас ждёт у нас?",
-  "Традиционная коллекция: Более 50 000 книг, включая редкие издания, энциклопедии и архивные материалы.",
-  "Место для творчества: Уютные залы для чтения, обсуждений и даже проведения лекций.",
-  "Современные технологии: Электронные книги, аудиокниги и цифровые ресурсы для учебы и развлечений.",
-  "Клубы и мероприятия: Участие в литературных клубах, мастер-классах и встречах с авторами.",
+  "<b>Традиционная коллекция:</b> Более 50 000 книг, включая редкие издания, энциклопедии и архивные материалы.",
+  "<b>Место для творчества:</b> Уютные залы для чтения, обсуждений и даже проведения лекций.",
+  "<b>Современные технологии:</b> Электронные книги, аудиокниги и цифровые ресурсы для учебы и развлечений.",
+  "<b>Клубы и мероприятия:</b> Участие в литературных клубах, мастер-классах и встречах с авторами.",
 ]);
-const setupObserver = () => {
-  // Создаем новый IntersectionObserver
-  const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // Когда элемент видим, активируем анимацию
-          if (entry.isIntersecting) {
-            isAnimated.value = true;
-          } else {
-            // Когда элемент выходит из области видимости, сбрасываем анимацию
-            isAnimated.value = false;
-          }
-        });
-      },
-      {
-        threshold: 0.5, // Когда 50% элемента видны
-      }
-  );
-
-  // Наблюдаем за блоком с ul
-  if (listRef.value) {
-    observer.observe(listRef.value);
-  }
+const facts = ref([
+  "В нашем архиве хранится первое издание романа, которому уже более 100 лет.",
+  "Читальный зал на третьем этаже был восстановлен из руин после пожара в 1990 году.",
+  "Ежегодно мы проводим более 30 мероприятий, включая детские чтения и выставки книг.",
+]);
+const offers = ref([
+  "<b>Удобный поиск:</b> Хотите найти любимого автора или жанр? Используйте наш умный поиск!",
+  "<b>Онлайн-резервирование:</b> Найдите книгу в приложении и заберите её у нас.",
+  "<b>AI-рекомендации:</b> Искусственный интеллект подскажет книги, которые вас заинтересуют.",
+  "<b>Рецензии и рейтинги:</b> Узнайте, что думают другие, и поделитесь своими впечатлениями.",
+]);
+const list = ref([
+  "<b>Доступность:</b> У нас тысячи книг в разных жанрах — от классики до новинок.",
+  "<b>Технологии:</b> Использование AI и NLP делает наш сервис быстрым и удобным.",
+  "<b>Сообщество:</b> Мы — не просто библиотека, а платформа для общения, вдохновения и обмена знаниями."
+])
+const onTransitionComplete = () => {
+  nextTick(() => {
+    AOS.refresh(); // Обновляем AOS после завершения анимации
+  });
 };
-// Показ контента через 300 мс
 onMounted(() => {
-  setupObserver();
+
   nextTick(() => {
     setTimeout(() => {
       showContent.value = true;
@@ -60,7 +56,7 @@ const onImageLoad = () => {
 <template>
 <div class="main">
 <h1>О нас</h1>
-  <transition name="fade">
+  <transition name="fade" @after-enter="onTransitionComplete">
     <div class="block1" v-if="showContent">
       <p>
         Добро пожаловать в библиотеку <b>"Эпоха Знаний"</b> — пространство, где каждый может найти что-то вдохновляющее, образовательное и увлекательное.
@@ -75,10 +71,8 @@ const onImageLoad = () => {
       >
     </div>
   </transition>
-  <div class="block2" v-if="showContent">
-    <!-- Первый блок -->
-    <transition name="left">
-      <div  class="block2__title">
+  <div class="block2">
+      <div data-aos="fade-down"  class="block2__title">
         <h2>Наша библиотека</h2>
         <p>
           Библиотека "Эпоха Знаний" была основана в 1975 году с целью сохранить культурное наследие
@@ -86,29 +80,59 @@ const onImageLoad = () => {
           это живой центр культуры и обучения.
         </p>
       </div>
-    </transition>
 
-    <!-- Второй блок -->
-
-      <ul ref="list">
-        <li
-            v-for="(item, index) in items"
-            :key="index"
-            :data-aos="item.aosType" data-aos-duration="1000" data-aos-delay="200"
-        >
-          {{ item }}
-        </li>
-      </ul>
-
-    <!-- Третий блок -->
-    <transition name="left">
-      <ul>
-        <li>Интересные факты о библиотеке:</li>
-        <li>В нашем архиве хранится первое издание романа, которому уже более 100 лет.</li>
-        <li>Читальный зал на третьем этаже был восстановлен из руин после пожара в 1990 году.</li>
-        <li>Ежегодно мы проводим более 30 мероприятий, включая детские чтения и выставки книг.</li>
-      </ul>
-    </transition>
+    <about-item
+    :title="'Что вас ждёт у нас?'"
+    :items="items"
+    :style1="'fade-right'"
+    :style2="'fade-left'"
+    />
+    <about-item
+        :title="'Интересеные факты о библиотеке:'"
+        :items="facts"
+        :style1="'fade-up'"
+        :style2="'fade-down'"
+    />
+    <about-item
+        :title="'Что мы предлагаем?'"
+        :items="offers"
+        :style2="'fade-up-left'"
+        :style1="'fade-up-right'"
+    />
+    <div data-aos="fade-up"  class="block2__title">
+      <h2>Наша история</h2>
+      <div class="history">
+        <div data-aos-delay="200" data-aos="fade-right" class="">
+          <img src="../public/img/photo1.avif" alt="">
+        </div>
+        <div data-aos-delay="200" data-aos="fade-left" class="">
+          <p>
+            "Эпоха Знаний" появилась как идея соединить в одном месте классическую атмосферу библиотек с инновациями цифрового века. Наше приложение создано для того, чтобы читатели могли легко находить книги, делиться впечатлениями и вдохновляться новыми идеями.
+          </p>
+        </div>
+      </div>
+    </div>
+    <about-item
+        :title="'Почему выбирают нас?'"
+        :items="offers"
+        :style2="'fade-down-left'"
+        :style1="'fade-down-right'"
+    />
+    <div data-aos="fade-up"  class="block2__title">
+      <h2>Присоединяйтесь к нам!</h2>
+      <p>
+        Начните своё путешествие в мир книг вместе с нами. Независимо от того,
+        любите ли вы классику, научные труды или художественную литературу —
+        у нас найдётся что-то для вас.
+      </p>
+      <div class="map">
+        <div style="position:relative;overflow:hidden;">
+          <a href="https://yandex.uz/maps/10335/tashkent/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Ташкент</a>
+          <a href="https://yandex.uz/maps/10335/tashkent/?ll=69.260761%2C41.320659&utm_medium=mapframe&utm_source=maps&z=16.4" style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты — транспорт, навигация, поиск мест</a>
+          <iframe src="https://yandex.uz/map-widget/v1/?ll=69.260761%2C41.320659&z=16.4&scrollZoom=false" width="560" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -143,6 +167,7 @@ h1{
     align-items: center;
     justify-content: center;
     gap: 20px;
+    margin-bottom: 40px;
     h2{
       font-size: 40px;
     }
@@ -150,13 +175,17 @@ h1{
       font-size: 24px;
       text-align: center;
     }
-  }
-  ul{
-    overflow: hidden;
-    li{
-      font-size: 24px;
+    .history{
+      width: 80vw;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
     }
+
   }
+
+
 }
 .fade-enter-active {
   animation: fadeBounce 1s ease-out;
@@ -209,5 +238,7 @@ li {
     transform: translateX(0);
   }
 }
-
+.map{
+  width: 100%;
+}
 </style>

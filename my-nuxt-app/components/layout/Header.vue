@@ -16,7 +16,7 @@
         </transition-group>
         <button @click="onSearch">🔍</button>
       </div>
-      <NuxtLink to="/bookings">Мои бронирования</NuxtLink>
+      <NuxtLink to="/my-reservations">Мои бронирования</NuxtLink>
       <NuxtLink to="/about">Случайная книга</NuxtLink>
     </nav>
 
