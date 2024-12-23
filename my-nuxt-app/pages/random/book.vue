@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import {fetchBookById} from "~/composables/useBook";
-const book = ref(null);
+import {onMounted, ref} from "vue";
+import {useRandom} from "~/composables/useRandom";
+
 const reviews = [
   {
     title: "Отличная книга!",
@@ -35,39 +34,31 @@ const reviews = [
     expanded: false
   }
 ];
-const route = useRoute(); // Получаем объект маршрута
-const id = ref(route.params.id); // Извлекаем ID из параметров маршрута
+const book = ref(null);
 const loadBook = async () => {
-  book.value = await fetchBookById(id.value)
+  console.log(1)
+  book.value = await useRandom();
   console.log(book.value)
   console.log(book.value.title)
 };
 onMounted(() => {
   loadBook();
-  console.log('ID из маршрута:', id.value); // Проверяем, что ID правильно извлечён
 });
 </script>
 
 <template>
-  <h1
-  v-if="!book"
-  >Загрузка...</h1>
-  <div v-else class="">
-    <books-page-item
-        :title="book.title"
-        :authors="book.authors"
-        :categories="book.categories"
-        :pages="book.printedPageCount"
-        :language="book.language"
-        :description="book.description"
-        :published-date="book.publishedDate"
-        :image-src="book.imageLinks.thumbnail"
-        :publisher="book.publisher"
-        :reviews="reviews"
+  <books-page-item
+      :title="book.title"
+      :authors="book.authors"
+      :categories="book.categories"
+      :pages="book.printedPageCount"
+      :language="book.language"
+      :description="book.description"
+      :published-date="book.publishedDate"
+      :image-src="book.imageLinks.thumbnail"
+      :reviews="reviews"
 
-    />
-  </div>
-
+  />
 </template>
 
 <style scoped>

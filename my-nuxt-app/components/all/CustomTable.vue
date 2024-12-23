@@ -1,104 +1,151 @@
-<template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <v-text-field
-            v-model="search"
-            label="Поиск"
-            prepend-icon="mdi-magnify"
-            clearable
-        />
-      </v-col>
-    </v-row>
+<script setup>
+import { ref, computed } from 'vue';
 
-    <v-data-table
-        :headers="headers"
-        :items="paginatedItems"
-        class="elevation-1"
-    >
-      <template v-slot:item.actions="{ item }">
-        <v-btn @click="cancelBooking(item)" color="red" small>
-          Отменить
-        </v-btn>
-      </template>
+// Эмиссия события для удаления строки
+const emit = defineEmits(['deleteBook']);
 
-      <template v-slot:bottom>
-        <v-row justify="space-between" align="center">
-          <v-col>
-            <v-select
-                v-model="itemsPerPage"
-                :items="itemsPerPageOptions"
-                label="Элементов на странице"
-                dense
-                outlined
-                style="max-width: 150px;"
-            />
-          </v-col>
-          <v-col>
-            <v-pagination
-                v-model="currentPage"
-                :length="pageCount"
-                color="primary"
-            />
-          </v-col>
-        </v-row>
-      </template>
-    </v-data-table>
-  </v-container>
-</template>
-
-<script setup lang="ts">
-import { ref, computed, defineProps, defineEmits } from "vue";
-
-// Получаем пропсы
+// Получаем заголовки и данные из родителя
 const props = defineProps({
-  items: {
-    type: Array,
-    required: true,
-    default: () => [],
-  },
   headers: {
     type: Array,
     required: true,
-    default: () => [],
+  },
+  rows: {
+    type: Array,
+    required: true,
   },
 });
 
-// Локальные переменные
-const search = ref("");
-const currentPage = ref(1);
-const itemsPerPage = ref(5);
-const itemsPerPageOptions = [5, 10, 15, 20];
+// Пагинация
+const currentPage = ref(1); // Текущая страница
+const rowsPerPage = 50; // Максимальное количество строк на странице
 
-// Количество страниц для пагинации
-const pageCount = computed(() => Math.ceil(filteredItems.value.length / itemsPerPage.value));
+// Всего страниц
+const totalPages = computed(() => Math.ceil(props.rows.length / rowsPerPage));
 
-// Фильтрация по поисковому запросу
-const filteredItems = computed(() => {
-  return props.items.filter((item) =>
-      JSON.stringify(item).toLowerCase().includes(search.value.toLowerCase())
-  );
+// Текущие строки для отображения
+const paginatedRows = computed(() => {
+  const startIndex = (currentPage.value - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  return props.rows.slice(startIndex, endIndex);
 });
 
-// Разбиение на страницы
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  const end = start + itemsPerPage.value;
-  return filteredItems.value.slice(start, end);
-});
+// Удаление строки
+const deleteRow = (index) => {
+  emit('deleteBook', index);
+};
 
-// Метод отмены бронирования
-const cancelBooking = (item: any) => {
-  emit("cancel", item); // Генерируем событие для родительского компонента
+// Вычисляемый массив для заголовков таблицы (включая статичные)
+const tableHeaders = computed(() => ['№', ...props.headers, '']);
+
+// Переключение страниц
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
 };
 </script>
 
+<template>
+  <div v-if="rows.length" class="overflow-x-auto">
+    <!-- Таблица -->
+    <table class="min-w-full table-auto border-collapse border border-gray-300 text-left shadow-lg">
+      <thead>
+      <tr class="bg-main text-white">
+        <th
+            v-for="(header, index) in tableHeaders"
+            :key="index"
+            class="border border-gray-300 p-3 text-sm font-semibold uppercase tracking-wide"
+        >
+          {{ header }}
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+          v-for="(row, rowIndex) in paginatedRows"
+          :key="rowIndex"
+          class="hover:bg-gray-100 odd:bg-white even:bg-gray-50 transition-colors"
+      >
+        <!-- Номер строки -->
+        <td class="border border-gray-300 p-3 text-gray-700 text-sm font-medium">
+          {{ (currentPage - 1) * rowsPerPage + rowIndex + 1 }}
+        </td>
+
+        <!-- Динамические колонки -->
+        <td
+            v-for="(header, headerIndex) in props.headers"
+            :key="headerIndex"
+            class="border border-gray-300 p-3 text-gray-600 text-sm"
+        >
+          {{ row[header] || '-' }}
+        </td>
+
+        <!-- Кнопка удаления -->
+        <td class="border border-gray-300 p-3 text-center">
+          <button
+              @click="deleteRow(row.id)"
+              class="bg-red-500 text-white py-1 px-4 rounded-md hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-1 transition"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- Пагинация -->
+    <div class="mt-4 flex justify-center items-center space-x-2">
+      <button
+          @click="goToPage(currentPage - 1)"
+          :disabled="currentPage === 1"
+          class="bg-gray-300 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-400 disabled:bg-gray-200 disabled:cursor-not-allowed"
+      >
+        Previous
+      </button>
+      <span class="text-gray-600 text-sm font-medium">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+          @click="goToPage(currentPage + 1)"
+          :disabled="currentPage === totalPages"
+          class="bg-gray-300 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-400 disabled:bg-gray-200 disabled:cursor-not-allowed"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+  <div v-else class="">
+    <div class="loader-container">
+      <div class="spinner"></div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-.v-data-table {
-  margin-top: 20px;
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.7); /* Полупрозрачный фон */
+  z-index: 1000;
 }
 
-.v-btn {
-  white-space: nowrap;
+.spinner {
+  border: 4px solid #f3f3f3; /* Светлый цвет */
+  border-top: 4px solid #3498db; /* Цветная верхняя часть */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+/* Анимация вращения */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>

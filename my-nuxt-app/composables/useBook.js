@@ -7,7 +7,7 @@ export const fetchBookById = async (id) => {
             throw new Error(`Ошибка при получении данных о книге с ID: ${id}`);
         }
         const data = await response.json();
-        return data.volumeInfo; // Возвращаем данные, чтобы можно было использовать в компонентах
+        return data.volumeInfo;
     } catch (error) {
         console.error('Ошибка:', error.message);
         return null; // Если произошла ошибка, возвращаем null

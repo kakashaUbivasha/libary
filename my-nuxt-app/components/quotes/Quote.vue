@@ -8,7 +8,7 @@ defineProps({
 
 <template>
 <div class="item">
-  <h2>{{title}}</h2>
+  <h2 class="text-1xl">{{title}}</h2>
   <p>{{text}}</p>
   <span>{{author}}</span>
 </div>
@@ -21,7 +21,7 @@ defineProps({
   justify-content: space-between;
   border: 1px solid #eaeaea;
   padding: 20px;
-  height: 130px;
+  height: 150px;
   border-radius: 20px;
   width: 800px;
   box-shadow:
@@ -29,12 +29,12 @@ defineProps({
       /* Глубокая тень для объёмности */
 
   h2{
-    font-size: 18px;
+    font-size: 18px !important;
     font-weight: 700;
     text-align: center;
   }
   p{
-    font-size: 16px;
+    font-size: 16px !important;
     text-align: center;
   }
   span{

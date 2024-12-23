@@ -1,5 +1,7 @@
 @import "./vars";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body{
   background: $bg;
@@ -31,7 +33,6 @@ ul{
   text-align: center;
 }
 .main{
-  width: 1800px;
   margin: 0 20px;
 }
 .swiper{
@@ -77,4 +78,7 @@ iframe{
 .v-application{
   background: none !important;
   color: inherit !important;
+}
+.bg-main{
+  background: #6A5ACD;
 }

@@ -163,8 +163,9 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   z-index: -1;
-  margin-top: -150px;
-  border-radius: 20px;
+  margin-top: -170px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   position: relative;
 }
 

@@ -8,10 +8,11 @@ defineProps({
   authors: [],
   pages: '',
   language: '',
-  reviews: []
+  reviews: [],
+  publisher: ''
 })
 const deleteTag = (desc) => {
-  return desc.replace(/<\/?[^>]+(>|$)/g, '');
+  return desc
 }
 </script>
 
@@ -31,28 +32,33 @@ const deleteTag = (desc) => {
     </ul>
     <p class="book__published">
       Дата выхода:
-      {{ publishedDate }}
+      {{ publishedDate || 'Не указана' }}
     </p>
+
+    <p>Издатель:
+      {{ publisher || 'Не указан' }}
+    </p>
+
     <ul>
       <li><h3>Категории:</h3></li>
-      <li
-          v-for="category in categories" :key="category"
-      >{{category}}</li>
+      <li v-if="!categories">
+        Категории не указаны
+      </li>
+      <li v-for="category in categories" :key="category">
+        {{ category }}
+      </li>
     </ul>
-<!--    <p class="language">-->
-<!--      Язык первоисточника:-->
-<!--      {{ language }}-->
-<!--    </p>-->
+
     <p class="pages__count">
       Количество страниц:
-      {{ pages }}
+      {{ pages || 'Не указано' }}
     </p>
+
     <div class="description">
       <p style="font-weight: 700;">Описание:</p>
       <p>
-        {{ deleteTag(description) }}
+        {{ deleteTag(description || 'Описание отсутствует') }}
       </p>
-
     </div>
   </div>
 </div>

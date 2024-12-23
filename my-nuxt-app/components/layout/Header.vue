@@ -17,7 +17,7 @@
         <button @click="onSearch">🔍</button>
       </div>
       <NuxtLink to="/my-reservations">Мои бронирования</NuxtLink>
-      <NuxtLink to="/about">Случайная книга</NuxtLink>
+      <NuxtLink to="/random/book">Случайная книга</NuxtLink>
     </nav>
 
     <div class="auth-section">
@@ -56,8 +56,7 @@ export default {
     const onSearch = () => {
       isSearched.value = true
       if (searchQuery.value.trim()) {
-        // Логика поиска
-        console.log("Ищем книги по запросу:", searchQuery.value);
+        navigateTo(`search/${searchQuery.value}`)
       }
     };
 
@@ -77,7 +76,6 @@ export default {
       isAuthenticated.value = false;
       console.log("Пользователь вышел из системы");
     };
-
     return {
       searchQuery,
       isAuthenticated,
@@ -104,6 +102,7 @@ export default {
   border-bottom: 1px solid #ddd;
   margin-bottom: 100px;
   z-index: 3;
+  margin-top: 10px;
 }
 
 .logo a {
