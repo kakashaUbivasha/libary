@@ -12,7 +12,7 @@ defineProps({
   publisher: ''
 })
 const deleteTag = (desc) => {
-  return desc
+  return desc.replace(/<\/?[^>]+(>|$)/g, "");
 }
 </script>
 
@@ -57,11 +57,14 @@ const deleteTag = (desc) => {
     <div class="description">
       <p style="font-weight: 700;">Описание:</p>
       <p>
-        {{ deleteTag(description || 'Описание отсутствует') }}
+        {{ deleteTag(description||'Нет описания') }}
       </p>
     </div>
   </div>
 </div>
+  <div class="flex justify-center mt-10">
+    <span class="bg-main py-5 px-10 uppercase text-white rounded-2xl cursor-pointer font-bold shadow-xl hover:bg-[#7B68EE]">Забронироавть книгу</span>
+  </div>
   <div class="reviews main">
     <h2>Рецензии</h2>
     <div class="reviews__block">

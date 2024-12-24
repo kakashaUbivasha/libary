@@ -100,7 +100,7 @@ export default {
   padding: 10px 20px;
   background-color: #F0F4F8;
   border-bottom: 1px solid #ddd;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   z-index: 3;
   margin-top: 10px;
 }
