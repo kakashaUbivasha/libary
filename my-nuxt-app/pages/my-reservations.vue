@@ -1,37 +1,39 @@
 <template>
   <div class="main">
-    <h1 class="text-4xl text-center mb-10">Мои бронирования</h1>
+    <h1 class="text-4xl text-center mb-10 font-bold">Мои бронирования</h1>
     <custom-table
         :rows="items"
         :headers="headers"
         @delete-book="deleteBooks"
+        :is-user="true"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-// definePageMeta({
-//   middleware: 'auth',
-// });
+definePageMeta({
+  middleware: 'auth',
+});
 import {onMounted, ref} from 'vue'
 import CustomTable from "~/components/all/CustomTable.vue";
 let items = ref([])
-const headers = ref(['Name', 'Age', 'Country']);
+const headers = [
+  { key: 'name', label: 'Name' },
+  { key: 'age', label: 'Age' },
+  { key: 'country', label: 'Country' },
+];
 const apiEmitation = () =>{
   setTimeout(()=>{
     items.value = rows.value
   },3000)
 }
 let rows = ref([
-  { Name: 'John', Age: 30, Country: 'USA',id:'1' },
-  { Name: 'Anna', Age: 25, Country: 'Canada',id:'2' },
-  { Name: 'Tom', Age: 35, Country: 'UK',id:'3' },
+  { name: 'John', age: 30, country: 'USA', id: '1' },
+  { name: 'Anna', age: 25, country: 'Canada', id: '2' },
+  { name: 'Tom', age: 35, country: 'UK', id: '3' },
 ]);
 const deleteBooks = (item: any) => {
-  console.log("Удаление строки с ID:", item);
-  console.log("До удаления:", rows.value);
   rows.value = rows.value.filter((booking) => booking.id !== item);
-  console.log("После удаления:", rows.value);
   apiEmitation()
 };
 onMounted(()=>{

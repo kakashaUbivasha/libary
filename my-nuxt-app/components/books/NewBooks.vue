@@ -14,7 +14,6 @@
       </div>
     </div>
     <div class="button-container">
-      <NuxtLink class="btn">Загрузить ещё</NuxtLink>
     </div>
   </div>
 </template>

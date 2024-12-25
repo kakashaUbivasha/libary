@@ -131,20 +131,31 @@ onMounted(() => {
     <nuxt-link
     to="/"
     >
-      <h1>Новинки</h1>
+      <h1 class="text-4xl font-bold">Новинки</h1>
     </nuxt-link>
 
     <new-books/>
     <quotes />
     <nuxt-link to="/">
-      <h1>Образовательные книги</h1>
+      <h1 class="text-4xl fonr-bold">Образовательные книги</h1>
     </nuxt-link>
     <education-books/>
     <quotes />
     <nuxt-link to="/">
-      <h1>Случайные книги</h1>
+      <h1 class="text-4xl font-bold">Случайные книги</h1>
     </nuxt-link>
     <books />
+    <div class="">
+      <h2 class="text-center mt-20 text-3xl font-bold">Самые активные пользователи</h2>
+      <ul class="flex flex-col justify-center items-center mt-10">
+        <li>vfbr</li>
+        <li>ghghgh</li>
+        <li>ghghghgh</li>
+        <li>ghghghgh</li>
+        <li>ghghghzd</li>
+        <li>hhjgjg bnf</li>
+      </ul>
+    </div>
   </div>
 </template>
 

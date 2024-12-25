@@ -34,7 +34,7 @@ const getBackgroundStyle = () =>{
       <div class="text-center">
         <p>Количество прочитанных книг: {{ totalBooks }}</p>
         <p :class="isCurrentUser?'mb-10':''">С нами с: {{ registerDate }}</p>
-        <span class="bg-red-500 py-2 px-5 rounded-md text-white" v-if="isCurrentUser">Выйти</span>
+        <span class="bg-red-500 hover:bg-red-600 py-2 px-5 rounded-md text-white cursor-pointer" v-if="isCurrentUser">Выйти</span>
       </div>
     </div>
   </div>

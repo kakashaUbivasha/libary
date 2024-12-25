@@ -14,6 +14,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  isUser: true
 });
 
 // Пагинация
@@ -36,7 +37,10 @@ const deleteRow = (index) => {
 };
 
 // Вычисляемый массив для заголовков таблицы (включая статичные)
-const tableHeaders = computed(() => ['№', ...props.headers, '']);
+const tableHeaders = computed(() => ['№', ...props.headers.map(header => header.label), '']);
+
+// Получение данных строки по ключу
+const getCellData = (row, headerKey) => row[headerKey] || '-';
 
 // Переключение страниц
 const goToPage = (page) => {
@@ -45,6 +49,7 @@ const goToPage = (page) => {
   }
 };
 </script>
+
 
 <template>
   <div v-if="rows.length" class="overflow-x-auto">
@@ -74,22 +79,37 @@ const goToPage = (page) => {
 
         <!-- Динамические колонки -->
         <td
-            v-for="(header, headerIndex) in props.headers"
-            :key="headerIndex"
+            v-for="header in props.headers"
+            :key="header.key"
             class="border border-gray-300 p-3 text-gray-600 text-sm"
         >
-          {{ row[header] || '-' }}
+          {{ getCellData(row, header.key) }}
         </td>
 
         <!-- Кнопка удаления -->
-        <td class="border border-gray-300 p-3 text-center">
+        <td v-if="isUser" class="border border-gray-300 p-3 text-center">
           <button
               @click="deleteRow(row.id)"
               class="bg-red-500 text-white py-1 px-4 rounded-md hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-1 transition"
           >
-            Delete
+            Отменить бронь
           </button>
         </td>
+        <td v-else class="border border-gray-300 p-3 text-center">
+          <button
+              @click="deleteRow(row.id)"
+              class="bg-red-500 text-white py-1 px-4 rounded-md hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-1 transition mr-5"
+          >
+            Отменить бронь
+          </button>
+          <button
+              @click="deleteRow(row.id)"
+              class="bg-green-500 text-white py-1 px-4 rounded-md hover:bg-green-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-1 transition"
+          >
+            Выдать книгу
+          </button>
+        </td>
+
       </tr>
       </tbody>
     </table>
@@ -113,7 +133,7 @@ const goToPage = (page) => {
       </button>
     </div>
   </div>
-  <div v-else class="">
+  <div v-else>
     <div class="loader-container">
       <div class="spinner"></div>
     </div>
